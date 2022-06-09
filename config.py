@@ -8,7 +8,6 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://lewis:lewis29@localhost/wins'
 
 
-
 class ProdConfig(Config):
     '''
     Production  configuration child class
