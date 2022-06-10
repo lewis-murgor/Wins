@@ -1,0 +1,5 @@
+Hello {{user.username}},
+
+Welcome to Wins
+
+We have just seen you have signed up for Wins and want to welcome you to the family. Please enjoy the wins posted and also post your wins for others to see.
