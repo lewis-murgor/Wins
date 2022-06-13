@@ -1,14 +1,30 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/comment.css')}}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <strong>{{win.user.username}}</strong>
-            <p>{{win.text}}</p>
-            <em>Comment on {{win.user.username}}'s win</em>
+            <div class="row">
+                <div class="col-md-3">
+                    {% if win.user.profile_pic_path %}
+                        <img src="{{url_for('static',filename=win.user.profile_pic_path)}}" alt="" height="80px">
+                    {%else%}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU" height="80px" alt="">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <h4><strong>{{win.user.username}}</strong></h4>
+                    <p>{{win.text}}</p>
+                </div>
+            </div>
+            <em>Commenting on {{win.user.username}}'s win</em>
             {{ wtf.quick_form(comment_form) }}
             {{simplemde.load}}
         </div>

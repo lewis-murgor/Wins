@@ -35,6 +35,7 @@ def new_win():
     '''
     Function that creates new wins
     '''
+    
     form = WinForm()
 
     if form.validate_on_submit():
@@ -45,7 +46,7 @@ def new_win():
         new_win.save_win()
         return redirect(url_for('.index'))
     title = 'Create Win'
-    return render_template('new_win.html',title = title, win_form = form)
+    return render_template('new_win.html',title = title, win_form = form,)
 
 @main.route('/delete/win/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -160,5 +161,7 @@ def single_win(id):
         abort(404)
     format_win = markdown2.markdown(win.text,extras=["code-friendly", "fenced-code-blocks"])
     return render_template('single_win.html',win = win,format_win=format_win)
+
+
 
 

@@ -2,11 +2,53 @@
 
 {% block styles%}
     {{ super() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
 {% endblock %}
 
 {% block content %}
-
-<h1 class="text-center">Wins</h1>
+<div class="row">
+    <div class="col-md-4"></div>
+    {%for win in wins%}
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-3">
+                {% if win.user.profile_pic_path %}
+                    <img src="{{url_for('static',filename=win.user.profile_pic_path)}}" alt="" height="80px">
+                {%else%}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU" height="80px" alt="">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h4><strong>{{win.user.username}}</strong></h4>
+                <p>{{win.text}}</p>
+            </div>
+        </div>
+        {{win.posted.strftime("%H:%M . %d %b %Y")}}
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <span><strong>{{win.upvotes.count()}}</strong> likes</span>
+            </div>
+            <div class="col-md-6">
+                <span><strong>{{win.comments.count()}}</strong> comments</span>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{url_for('main.upvote', id = win.id)}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></i></a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.new_comment', id = win.id)}}"><i class="fa fa-comment" aria-hidden="true"></i></a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.delete_win', id = win.id)}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
+        </div> 
+    </div>
+    {% endfor %}
+    <div class="col-md-4"></div>
+</div>
 
 {% endblock%}
