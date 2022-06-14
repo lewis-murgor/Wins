@@ -43,8 +43,8 @@ class Win(db.Model):
     photo_path = db.Column(db.String(),nullable = True)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    comments = db.relationship('Comment',backref = 'blog',lazy="dynamic")
-    upvotes = db.relationship('UpVote',backref = 'pitch',lazy="dynamic")
+    comments = db.relationship('Comment',backref = 'win',lazy="dynamic")
+    upvotes = db.relationship('UpVote',backref = 'win',lazy="dynamic")
 
     def save_win(self):
         
@@ -68,6 +68,7 @@ class Comment(db.Model):
     win_id = db.Column(db.Integer,db.ForeignKey('wins.id'))
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    upvotes = db.relationship('UpVote',backref = 'comment',lazy="dynamic")
 
     def save_comment(self):
         db.session.add(self)
@@ -79,7 +80,7 @@ class Comment(db.Model):
 
     @classmethod
     def get_comments(cls,id):
-        comments = Comment.query.filter_by(blog_id=id).all()
+        comments = Comment.query.filter_by(win_id=id).all()
         return comments
 
     def __repr__(self):
@@ -91,6 +92,7 @@ class UpVote(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     win_id = db.Column(db.Integer,db.ForeignKey('wins.id'))
+    comment_id = db.Column(db.Integer,db.ForeignKey('comments.id'))
 
     def save_vote(self):
         db.session.add(self)

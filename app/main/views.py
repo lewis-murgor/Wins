@@ -75,7 +75,8 @@ def new_comment(id):
     title = f'{win.title} comment'
     return render_template('new_comment.html',title = title, comment_form=form, win = win)
 
-@main.route('/delete/comment/<int:id>', methods=['GET', 'POST'])
+
+@main.route('/delete/comment/<int:id>', methods = ['GET','POST'])
 @login_required
 def delete_comment(id):
     comment =Comment.query.get(id)

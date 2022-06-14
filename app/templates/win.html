@@ -1,0 +1,86 @@
+{% extends 'base.html'%}
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/comment.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-3">
+                {% if win.user.profile_pic_path %}
+                    <img src="{{url_for('static',filename=win.user.profile_pic_path)}}" alt="" height="80px">
+                {%else%}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU" height="80px" alt="">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h4><strong>{{win.user.username}}</strong></h4>
+                <p>{{win.text}}</p>
+            </div>
+        </div>
+        {{win.posted.strftime("%H:%M . %d %b %Y")}}
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <span><strong>{{win.upvotes.count()}}</strong> likes</span>
+            </div>
+            <div class="col-md-6">
+                <span><strong>{{win.comments.count()}}</strong> comments</span>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{url_for('main.upvote', id = win.id)}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></i></a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.new_comment', id = win.id)}}"><i class="fa fa-comment" aria-hidden="true"></i></a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.delete_win', id = win.id)}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
+        </div> 
+        <hr>
+        <a href="{{url_for('main.new_comment', id = win.id)}}"><p>Write a Comment</p></a>
+        <hr>
+        <div class="row">
+            {%for comment in comments%}
+            <div class="col-md-3">
+                {% if comment.user.profile_pic_path %}
+                    <img src="{{url_for('static',filename=win.user.profile_pic_path)}}" alt="" height="80px">
+                {%else%}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU" height="80px" alt="">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h4><strong>{{comment.user.username}}</strong></h4>
+                <p>{{comment.comment}}</p>
+            </div>
+        </div>
+        {{comment.posted.strftime("%H:%M . %d %b %Y")}}
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{url_for('main.upvote', id = win.id)}}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></i></a>
+                <span>{{comment.upvotes.count()}}</span>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.new_comment', id = win.id)}}"><i class="fa fa-comment" aria-hidden="true"></i></a>
+                <span>{{win.comments.count()}}</span>
+            </div>
+            <div class="col-md-4">
+                <a href="{{url_for('main.delete_comment', id = comment.id)}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
+        </div> 
+        <hr>
+        {% endfor %}
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+{% endblock%}
